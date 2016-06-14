@@ -1,15 +1,13 @@
 import chai from 'chai';
 
-import ActionList from 'src/js/action-list.js';
+import ActionList from 'src/js/action-list';
 
 chai.should();
 
 describe('ActionList', () => {
     describe('#constructor()', () => {
         it('requires instance of HtmlElement', () => {
-            () => {
-                new ActionList();
-            }.should.throw(Error);
+            (() => new ActionList()).should.throw(Error);
         });
     });
 
@@ -25,7 +23,7 @@ describe('ActionList', () => {
         it('filter by value', () => {
             actionList.filter('type', 'food');
 
-            var values = getValuesbByFiled(node, 'type');
+            const values = getValuesbByFiled(node, 'type');
             values.should.have.length(2);
 
             values[0].should.equal('food');
@@ -33,9 +31,9 @@ describe('ActionList', () => {
         });
 
         it('incorrect field', () => {
-            () => {
+            (() => {
                 actionList.filter('incorrect', 'food');
-            }.should.throw(Error);
+            }).should.throw(Error);
         });
 
         it('incorrect value', () => {
@@ -62,21 +60,21 @@ describe('ActionList', () => {
         });
 
         it('requires field for sorting', () => {
-            () => {
+            (() => {
                 actionList.sort();
-            }.should.throw(Error);
+            }).should.throw(Error);
         });
 
         it('requires existing field for sorting', () => {
-            () => {
+            (() => {
                 actionList.sort('key');
-            }.should.throw(Error);
+            }).should.throw(Error);
         });
 
         it('sort asc by default', () => {
             actionList.sort('price');
 
-            var values = getValuesbByFiled(node, 'price');
+            const values = getValuesbByFiled(node, 'price');
             values.should.have.length(3);
 
             values[0].should.equal('20');
@@ -87,7 +85,7 @@ describe('ActionList', () => {
         it('sort desc', () => {
             actionList.sort('price', 'desc');
 
-            var values = getValuesbByFiled(node, 'price');
+            const values = getValuesbByFiled(node, 'price');
             values.should.have.length(3);
 
             values[0].should.equal('65');
@@ -98,7 +96,7 @@ describe('ActionList', () => {
         it('ignore incorrect `order` value', () => {
             actionList.sort('price', 'custom');
 
-            var values = getValuesbByFiled(node, 'price');
+            const values = getValuesbByFiled(node, 'price');
             values.should.have.length(3);
 
             values[0].should.equal('20');
@@ -109,7 +107,7 @@ describe('ActionList', () => {
         it('sort selected items', () => {
             actionList.filter('type', 'food');
 
-            var prices = getValuesbByFiled(node, 'price');
+            let prices = getValuesbByFiled(node, 'price');
             prices.should.have.length(2);
 
             prices[0].should.equal('20');
@@ -129,7 +127,7 @@ describe('ActionList', () => {
 // Helpers.
 
 function createActionListNode() {
-    let node = document.createElement('li');
+    const node = document.createElement('li');
     node.innerHTML = `
         <li data-type="food" data-price="20">Батон</li>
         <li data-type="common" data-price="50">Батарейки</li>

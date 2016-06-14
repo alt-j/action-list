@@ -1,16 +1,16 @@
 import chai from 'chai';
 import sinon from 'sinon';
 
-import {RemoteActionListInner} from 'src/js/remote-action-list.js';
+import {RemoteActionListInner} from 'src/js/remote-action-list';
 
-import provider from 'src/js/provider-mock';
-import templates from 'src/js/templates-mock';
+import provider from 'src/js/mocks/provider';
+import templates from 'src/js/mocks/templates';
 
 chai.should();
 
 describe('RemoteActionList', () => {
     let node;
-    let options = {
+    const options = {
         provider: provider,
         templates: templates
     };
@@ -24,37 +24,29 @@ describe('RemoteActionList', () => {
 
     describe('#constructor()', () => {
         it('should requires instance of HtmlElement', () => {
-            () => {
-                new RemoteActionListInner();
-            }.should.throw(Error);
+            (() => new RemoteActionListInner()).should.throw(Error);
         });
 
         it('should requires data-attribute `template`', () => {
             delete node.dataset.template;
 
-            () => {
-                new RemoteActionListInner(node, options);
-            }.should.throw(Error);
+            (() => new RemoteActionListInner(node, options)).should.throw(Error);
         });
 
         it('should requires existing template in data-attribute `template`', () => {
             node.dataset.template = 'some_template';
 
-            () => {
-                new RemoteActionListInner(node, options);
-            }.should.throw(Error);
+            (() => new RemoteActionListInner(node, options)).should.throw(Error);
         });
 
         it('should requires data-attribute `source`', () => {
             delete node.dataset.source;
 
-            () => {
-                new RemoteActionListInner(node, options);
-            }.should.throw(Error);
+            (() => new RemoteActionListInner(node, options)).should.throw(Error);
         });
 
         it('should create instance', () => {
-            let remoteActionList = new RemoteActionListInner(node, options);
+            const remoteActionList = new RemoteActionListInner(node, options);
             remoteActionList.should.be.an.instanceOf(RemoteActionListInner);
         });
     });
@@ -76,13 +68,13 @@ describe('RemoteActionList', () => {
         });
 
         it('should append next page to dom node', () => {
-            return remoteActionList.nextPage().then((data) => {
+            return remoteActionList.nextPage().then(() => {
                 getItems(node).should.have.length(2);
             });
         });
 
         it('should call provider', () => {
-            return remoteActionList.nextPage().then((data) => {
+            return remoteActionList.nextPage().then(() => {
                 spy.callCount.should.eq(1);
             });
         });
@@ -96,7 +88,7 @@ describe('RemoteActionList', () => {
         it('should cancel previous request', () => {
             remoteActionList.nextPage().catch(() => {});
 
-            return remoteActionList.nextPage().then((data) => {
+            return remoteActionList.nextPage().then(() => {
                 spy.callCount.should.eq(2);
                 getItems(node).should.have.length(2);
             });
@@ -124,17 +116,11 @@ describe('RemoteActionList', () => {
     });
 
     describe('#filter()', () => {
-        let remoteActionList;
-
-        beforeEach(() => {
-        });
+        beforeEach(() => {});
     });
 
     describe('#sort()', () => {
-        let remoteActionList;
-
-        beforeEach(() => {
-        });
+        beforeEach(() => {});
     });
 });
 
@@ -142,8 +128,4 @@ describe('RemoteActionList', () => {
 
 function getItems(node) {
     return [].slice.call(node.children);
-}
-
-function getValuesbByFiled(node, filed) {
-    return getItems(node).map((item) => item.dataset[filed]);
 }

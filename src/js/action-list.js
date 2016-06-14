@@ -1,4 +1,4 @@
-const FIELDS = ['type', 'price'];
+import config from './config';
 
 class ActionList {
     /**
@@ -26,7 +26,7 @@ class ActionList {
             return;
         }
 
-        if (FIELDS.indexOf(field) === -1) {
+        if (config.fields.indexOf(field) === -1) {
             throw new Error('Incorrect field');
         }
 
@@ -41,7 +41,7 @@ class ActionList {
      * @returns {ActionList}
      */
     sort(field, order) {
-        if (FIELDS.indexOf(field) === -1) {
+        if (config.fields.indexOf(field) === -1) {
             throw new Error('Incorrect field');
         }
 

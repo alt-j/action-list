@@ -15,6 +15,7 @@
     "test": "karma start",
     "test:watch": "karma start --no-single-run",
     "build": "gulp build",
+    "lint": "eslint .",
     "postinstall": "jspm install",
     "example": "jspm install && npm run build"
   },
@@ -39,7 +40,8 @@
     "karma-mocha-reporter": "1.1.5",
     "karma-sinon": "1.0.5",
     "mocha": "2.4.5",
-    "sinon": "1.17.4"
+    "sinon": "1.17.4",
+    "eslint": "2.7.0"
   },
   "jspm": {
     "directories": {

@@ -3,7 +3,7 @@
  * @returns {Function}
  */
 const cancelabelCallback = function (callback) {
-    let wrapper = function () {
+    const wrapper = function () {
         if (!callback) {
             return;
         }

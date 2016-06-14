@@ -1,7 +1,7 @@
 const template = (items) => {
     return items
         .map((item) => {
-            let li = document.createElement('li');
+            const li = document.createElement('li');
 
             li.dataset.type = item.type;
             li.dataset.price = item.price;
@@ -13,4 +13,5 @@ const template = (items) => {
         .join('');
 };
 
+/* eslint camelcase: "off" */
 export default {my_template: template};

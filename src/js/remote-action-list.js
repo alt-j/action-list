@@ -1,9 +1,13 @@
 import ActionList from './action-list';
 
-import cancelabelCallback from './cancelabel-callback';
+import config from './config';
 
-import provider from './provider-mock';
-import templates from './templates-mock';
+import cancelabelCallback from './utils/cancelabel-callback';
+
+import provider from './mocks/provider';
+import templates from './mocks/templates';
+
+const isLastPage = ((response) => response.pagination.nextPage === null);
 
 class RemoteActionListInner {
     /**
@@ -20,13 +24,13 @@ class RemoteActionListInner {
 
         this._items = [];
 
-        let templateName = node.dataset.template;
+        const templateName = node.dataset.template;
         if (!options.templates[templateName]) {
             throw new Error(`Cann't find temaplte ${templateName}`);
         }
         this._template = options.templates[templateName];
 
-        const url = node.dataset.source
+        const url = node.dataset.source;
         if (!url) {
             throw new Error('Source not passed');
         }
@@ -46,9 +50,7 @@ class RemoteActionListInner {
      */
     nextPage() {
         if (this._currentPage && !this._nextPage) {
-            return new Promise(
-                (resolve, reject) => reject(new Error('Next page not found'))
-            );
+            return Promise.reject(new Error('Next page not found'));
         }
 
         this._params.page = this._nextPage;
@@ -65,9 +67,13 @@ class RemoteActionListInner {
      * @returns {Promise}
      */
     filter(field, value) {
+        if (field && config.fields.indexOf(field) === -1) {
+            throw new Error('Incorrect field');
+        }
+
         this._params = {
-            filter_by: field,
-            filter_value: value
+            filterBy: field,
+            filterValue: value
         };
 
         return this._request().then((response) => {
@@ -83,17 +89,17 @@ class RemoteActionListInner {
      * @returns {Promise}
      */
     sort(field, order) {
-        if (['type', 'price'].indexOf(field) === -1) {
+        if (config.fields.indexOf(field) === -1) {
             throw new Error('Incorrect field for sorting');
         }
 
         if (this._currentPage && !this._nextPage) {
-            let actionList = new ActionList(this._node);
+            const actionList = new ActionList(this._node);
             actionList.sort(field, order);
         } else {
             this._params = {
-                sort_key: field,
-                sort_order: order
+                sortKey: field,
+                sortOrder: order
             };
             this._request().then((response) => {
                 this._render(response.items);
@@ -109,8 +115,8 @@ class RemoteActionListInner {
         }
 
         this._requestCallback = cancelabelCallback((response) => {
-            this._currentPage = response.pagination.current_page;
-            this._nextPage = response.pagination.next_page;
+            this._currentPage = response.pagination.currentPage;
+            this._nextPage = response.pagination.nextPage;
 
             return response;
         });
@@ -129,10 +135,8 @@ class RemoteActionList extends RemoteActionListInner {
         super(node, {
             provider: provider,
             templates: templates
-        })
+        });
     }
 }
-
-const isLastPage = ((response) => response.pagination.next_page === null);
 
 export {RemoteActionList, RemoteActionListInner};

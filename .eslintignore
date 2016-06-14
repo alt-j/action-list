@@ -1,0 +1,7 @@
+example/**
+build/**
+node_modules/**
+src/lib/**
+src/config.js
+gulpfile.js
+karma.conf.js
