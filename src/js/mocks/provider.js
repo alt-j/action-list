@@ -4,8 +4,8 @@ const data = [
     {id: 1, type: 'food', name: 'Батон', price: 20},
     {id: 2, type: 'food', name: 'Молоко', price: 60},
     {id: 3, type: 'common', name: 'Батарейки', price: 50},
-    {id: 4, type: 'pet', name: 'Кошачий корм', price: 1000},
-    {id: 5, type: 'luxary', name: 'Черная икра', price: 15000}
+    {id: 4, type: 'common', name: 'Батарейки 1', price: 1000},
+    {id: 5, type: 'common', name: 'Батарейки 2', price: 15000}
 ];
 
 const provider = (url, params) => {

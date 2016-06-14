@@ -96,16 +96,18 @@ class RemoteActionListInner {
         if (this._currentPage && !this._nextPage) {
             const actionList = new ActionList(this._node);
             actionList.sort(field, order);
-        } else {
-            this._params = {
-                sortKey: field,
-                sortOrder: order
-            };
-            this._request().then((response) => {
-                this._render(response.items);
-                return {isLastPage: isLastPage(response)};
-            });
+
+            return Promise.resolve({isLastPage: true});
         }
+
+        this._params = {
+            sortKey: field,
+            sortOrder: order
+        };
+        return this._request().then((response) => {
+            this._render(response.items);
+            return {isLastPage: isLastPage(response)};
+        });
     }
 
     _request() {

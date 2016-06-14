@@ -20,7 +20,7 @@ describe('ActionList', () => {
             actionList = new ActionList(node);
         });
 
-        it('filter by value', () => {
+        it('should filter by value', () => {
             actionList.filter('type', 'food');
 
             const values = getValuesbByFiled(node, 'type');
@@ -30,18 +30,18 @@ describe('ActionList', () => {
             values[1].should.equal('food');
         });
 
-        it('incorrect field', () => {
+        it('should pass existing field', () => {
             (() => {
                 actionList.filter('incorrect', 'food');
             }).should.throw(Error);
         });
 
-        it('incorrect value', () => {
+        it('should pass correct value', () => {
             actionList.filter('type', 'incorrect');
             getItems(node).should.have.length(0);
         });
 
-        it('reset filters', () => {
+        it('should reset filters', () => {
             actionList.filter('type', 'food');
             getItems(node).should.have.length(2);
 
@@ -59,19 +59,19 @@ describe('ActionList', () => {
             actionList = new ActionList(node);
         });
 
-        it('requires field for sorting', () => {
+        it('should pass field', () => {
             (() => {
                 actionList.sort();
             }).should.throw(Error);
         });
 
-        it('requires existing field for sorting', () => {
+        it('should pass existing field', () => {
             (() => {
                 actionList.sort('key');
             }).should.throw(Error);
         });
 
-        it('sort asc by default', () => {
+        it('should sort asc by default', () => {
             actionList.sort('price');
 
             const values = getValuesbByFiled(node, 'price');
@@ -82,7 +82,7 @@ describe('ActionList', () => {
             values[2].should.equal('65');
         });
 
-        it('sort desc', () => {
+        it('should sort desc', () => {
             actionList.sort('price', 'desc');
 
             const values = getValuesbByFiled(node, 'price');
@@ -93,7 +93,7 @@ describe('ActionList', () => {
             values[2].should.equal('20');
         });
 
-        it('ignore incorrect `order` value', () => {
+        it('should ignore incorrect `order` value', () => {
             actionList.sort('price', 'custom');
 
             const values = getValuesbByFiled(node, 'price');
@@ -104,7 +104,7 @@ describe('ActionList', () => {
             values[2].should.equal('65');
         });
 
-        it('sort selected items', () => {
+        it('should sort selected items', () => {
             actionList.filter('type', 'food');
 
             let prices = getValuesbByFiled(node, 'price');
