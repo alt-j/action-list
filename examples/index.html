@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="../src/lib/system.js"></script>
+        <script src="../src/config.js"></script>
+
+        <script src="../build/index.min.js"></script>
+    </head>
+    <body>
+        <h2>Action list</h2>
+
+        <ul id="action-list">
+            <li data-type="food" data-price="20">Батон</li>
+            <li data-type="common" data-price="50">Батарейки</li>
+            <li data-type="food" data-price="65">Молоко</li>
+        </ul>
+        <script type="text/javascript">
+            System.import('js/index.js').then(function (lib) {
+                var actionList = new lib.ActionList(document.getElementById('action-list'));
+                actionList.sort('price', 'desc');
+            });
+        </script>
+
+        <h2>Remote action list</h2>
+
+        <ul id="remote-action-list" data-source="//api.example.com/items" data-template="my_template">
+        </ul>
+        <script type="text/javascript">
+            System.import('js/index.js').then(function (lib) {
+                var remoteActionList = new lib.RemoteActionList(document.getElementById('remote-action-list'));
+                remoteActionList.filter('type', 'food')
+                    .then((data) => !data.isLastPage && remoteActionList.nextPage())
+                    .then(() => remoteActionList.sort('price', 'desc'));
+            });
+        </script>
+    </body>
+</html>
