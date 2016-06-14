@@ -15,7 +15,8 @@
     "test": "karma start",
     "test:watch": "karma start --no-single-run",
     "build": "gulp build",
-    "postinstall": "jspm install"
+    "postinstall": "jspm install",
+    "example": "jspm install && npm run build"
   },
   "directories": {
     "test": "test",
@@ -43,7 +44,6 @@
   "jspm": {
     "directories": {
       "baseURL": "src",
-      "doc": "docs",
       "packages": "src/lib",
       "test": "test"
     },

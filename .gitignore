@@ -1,4 +1,4 @@
 npm-debug.log
 node_modules/
 src/lib/
-dist
+build/
